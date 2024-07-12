@@ -1,10 +1,13 @@
+import os
 from zipfile import ZipFile
-import csv
 from pypdf import PdfReader
 from openpyxl import load_workbook
+import csv
+from conftest import RESOURCES_DIR
+
 
 def test_for_csv():
-    with ZipFile('resources/zapakovkaslyoz.zip') as zip_file:
+    with ZipFile(os.path.join(RESOURCES_DIR, 'zapakovkaslyoz.zip')) as zip_file:
         with zip_file.open('file.csv') as csv_file:
             content = csv_file.read().decode('utf-8-sig')
             csvreader = list(csv.reader(content.splitlines()))
@@ -15,7 +18,7 @@ def test_for_csv():
 
 
 def test_for_pdf():
-    with ZipFile("resources/zapakovkaslyoz.zip") as zip_file:
+    with ZipFile(os.path.join(RESOURCES_DIR, 'zapakovkaslyoz.zip')) as zip_file:
         with zip_file.open('file.pdf') as pdf_file:
             reader = PdfReader(pdf_file)
             page = reader.pages[1]
@@ -24,7 +27,7 @@ def test_for_pdf():
 
 
 def test_from_xlsx():
-    with (ZipFile("resources/zapakovkaslyoz.zip") as zip_file):
+    with ZipFile(os.path.join(RESOURCES_DIR, 'zapakovkaslyoz.zip')) as zip_file:
         with zip_file.open('file.xlsx') as xlsx_file:
             workbook = load_workbook(xlsx_file)
             sheet = workbook.active
